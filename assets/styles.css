@@ -174,3 +174,25 @@ button,.btn,.head-cta,.inline-link,.glass-card{cursor:grab;touch-action:pan-y;us
   .mobile a:hover,.mobile a[aria-current="page"]{background:#eef7fd!important;border-color:#dbeefb;color:#348fc9}
 }
 @media(max-width:370px){header{gap:6px!important;padding-inline:12px 8px!important}.logo{font-size:13px}header>.head-cta{padding:9px 9px;font-size:9px}.menu{flex-basis:38px;width:38px;height:38px}}
+
+/* Stable mobile menu icon */
+@media(max-width:900px){
+  .menu,.menu.liquid-draggable{transform:none!important;overflow:hidden;cursor:pointer!important;touch-action:manipulation}
+  .menu:after,.menu .liquid-tap-wave{display:none!important}
+  .menu span{z-index:2;left:50%;top:50%;margin:0;will-change:transform;transform-origin:50% 50%;transition:transform .32s cubic-bezier(.22,1,.36,1)!important}
+  .menu span:first-child{transform:translate3d(-50%,-4px,0) rotate(0deg)}
+  .menu span:last-child{transform:translate3d(-50%,4px,0) rotate(0deg)}
+  .menu[aria-expanded="true"] span:first-child{transform:translate3d(-50%,0,0) rotate(45deg)}
+  .menu[aria-expanded="true"] span:last-child{transform:translate3d(-50%,0,0) rotate(-45deg)}
+}
+
+/* Real portfolio references */
+.case-brand,.portfolio-brand{display:grid;place-items:center;overflow:hidden;aspect-ratio:4/3;border-radius:28px;box-shadow:var(--shadow)}
+.case-brand span,.portfolio-brand span{font-weight:850;letter-spacing:-.08em;line-height:1}
+.case-brand span{font-size:clamp(62px,10vw,132px)}
+.portfolio-brand span{font-size:clamp(72px,12vw,170px)}
+.case-brand-wok,.portfolio-brand-wok{color:#fff;background:linear-gradient(145deg,#ff6038,#b71320)}
+.case-brand-momo,.portfolio-brand-momo{color:#34204d;background:radial-gradient(circle at 30% 20%,#fff8d8,#f1bbdc 48%,#aa8be8)}
+.portfolio-brand{border-radius:30px}
+.portfolio-item:nth-child(even) .portfolio-brand{order:2}
+@media(max-width:900px){.portfolio-item:nth-child(even) .portfolio-brand{order:0}}
