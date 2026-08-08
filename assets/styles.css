@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 :root{--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;--display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;--mono:"SF Mono",ui-monospace,Menlo,Monaco,Consolas,monospace;--bg:oklch(98.5% .004 260);--fg:oklch(15% .015 260);--blue:oklch(58% .22 257);--blue-soft:oklch(92% .06 238);--muted:oklch(55% .02 260);--line:oklch(88% .008 260);--white:oklch(100% 0 0);--dark:oklch(12% .018 260);--shadow:0 34px 90px oklch(18% .03 260/.16);--glass-fill:oklch(100% 0 0/.38);--glass-fill-strong:oklch(100% 0 0/.58);--glass-border:oklch(100% 0 0/.72);--glass-shadow:0 20px 55px oklch(20% .05 255/.13),inset 0 1px 1px oklch(100% 0 0/.94),inset 0 -1px 1px oklch(63% .08 255/.16),inset 5px 6px 12px oklch(100% 0 0/.19),inset -6px -7px 14px oklch(60% .12 255/.09)}
 @theme inline{--color-background:var(--bg);--color-foreground:var(--fg);--color-primary:var(--blue);--color-muted:var(--muted);--font-sans:var(--sans);--font-mono:var(--mono)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 12% 6%,oklch(85% .13 242/.78),transparent 25rem),radial-gradient(circle at 88% 28%,oklch(90% .11 300/.64),transparent 28rem),linear-gradient(118deg,oklch(98% .018 250),oklch(94% .035 222) 48%,oklch(98% .025 300));color:var(--fg);font-family:var(--sans),sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}.wrap{width:min(1320px,calc(100% - 64px));margin:auto}.section{padding-block:clamp(110px,12vw,190px)}.liquid-filter-defs{position:fixed;width:0;height:0;pointer-events:none}h1,h2,h3,.display,.work-title,.big-logo{font-family:var(--display);font-feature-settings:"kern" 1,"liga" 1}
@@ -196,3 +197,16 @@ button,.btn,.head-cta,.inline-link,.glass-card{cursor:grab;touch-action:pan-y;us
 .portfolio-brand{border-radius:30px}
 .portfolio-item:nth-child(even) .portfolio-brand{order:2}
 @media(max-width:900px){.portfolio-item:nth-child(even) .portfolio-brand{order:0}}
+
+/* Typography and background matched to the selected reference */
+:root{
+  --sans:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --display:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --bg:#fcfaf7;
+}
+body{
+  background:#fcfaf7;
+  background:oklch(98.71% .006 90);
+  font-family:var(--sans);
+  font-optical-sizing:auto;
+}
