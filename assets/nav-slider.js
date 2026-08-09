@@ -6,13 +6,6 @@
     if (!nav || nav.dataset.sliderReady === "true") return;
 
     nav.dataset.sliderReady = "true";
-    nav.classList.add("nav-slider");
-
-    const pill = document.createElement("span");
-    pill.className = "nav-slider-pill";
-    pill.setAttribute("aria-hidden", "true");
-    nav.prepend(pill);
-
     const links = [...nav.querySelectorAll("a")];
     const activeLink = () =>
       links.find(
@@ -23,11 +16,13 @@
 
     function moveTo(link, immediate = false) {
       if (!link) return;
-      if (immediate) pill.classList.add("is-positioning");
-      pill.style.width = `${link.offsetWidth}px`;
-      pill.style.transform = `translate3d(${link.offsetLeft}px, 0, 0)`;
+      if (immediate) nav.dataset.sliderPositioning = "true";
+      nav.style.setProperty("--nav-pill-width", `${link.offsetWidth}px`);
+      nav.style.setProperty("--nav-pill-x", `${link.offsetLeft}px`);
       if (immediate) {
-        requestAnimationFrame(() => pill.classList.remove("is-positioning"));
+        requestAnimationFrame(() => {
+          delete nav.dataset.sliderPositioning;
+        });
       }
     }
 
