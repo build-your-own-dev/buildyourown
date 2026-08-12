@@ -195,8 +195,8 @@ button,.btn,.head-cta,.inline-link,.glass-card{cursor:grab;touch-action:pan-y;us
 .case-brand span,.portfolio-brand span{font-weight:850;letter-spacing:-.08em;line-height:1}
 .case-brand span{font-size:clamp(62px,10vw,132px)}
 .portfolio-brand span{font-size:clamp(72px,12vw,170px)}
-.case-brand-wok,.portfolio-brand-wok{color:#fff;background:linear-gradient(145deg,#ff6038,#b71320)}
-.case-brand-momo,.portfolio-brand-momo{color:#34204d;background:radial-gradient(circle at 30% 20%,#fff8d8,#f1bbdc 48%,#aa8be8)}
+.case-brand-wok-momo,.portfolio-brand-wok-momo{color:#f7ead0;background:linear-gradient(145deg,#7b1817,#2b0908)}
+.case-brand-wok-momo span,.portfolio-brand-wok-momo span{letter-spacing:.06em}
 .portfolio-brand{border-radius:30px}
 .portfolio-item:nth-child(even) .portfolio-brand{order:2}
 @media(max-width:900px){.portfolio-item:nth-child(even) .portfolio-brand{order:0}}
@@ -222,3 +222,13 @@ body{
 header>.logo{display:inline-flex;align-items:center;gap:10px;justify-self:start;white-space:nowrap}
 header>.logo::before{content:"";display:block;flex:0 0 auto;width:42px;height:26px;background:url("./images/byo-symbol.png") center/contain no-repeat}
 @media(max-width:560px){header>.logo{gap:8px}header>.logo::before{width:36px;height:22px}}
+
+/* Use the supplied wordmark artwork everywhere a visual logo appears. */
+.logo{display:inline-flex;align-items:center;width:max-content;font-size:0;letter-spacing:0;white-space:nowrap}
+.logo::after{content:"";display:block;width:174px;height:18px;background:url("./images/byo-wordmark.png") center/contain no-repeat}
+.foot .logo::after{filter:invert(1)}
+.big-logo{display:flex;justify-content:center;align-items:center;padding:0 4vw 55px;font-size:0;line-height:0}
+.big-logo::before{content:"";display:block;width:min(88vw,1550px);aspect-ratio:1550/76;background:url("./images/byo-wordmark.png") center/contain no-repeat;filter:invert(1)}
+.reference-single{grid-column:1/-1}
+.reference-single .case-brand{aspect-ratio:16/7}
+@media(max-width:560px){.logo::after{width:138px;height:15px}.big-logo{padding-bottom:40px}.reference-single .case-brand{aspect-ratio:4/3}}
