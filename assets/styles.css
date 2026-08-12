@@ -233,3 +233,4 @@ header>.logo::after{margin-left:18px}
 .reference-single{grid-column:1/-1}
 .reference-single .case-brand{aspect-ratio:16/7}
 @media(max-width:560px){.logo::after{width:138px;height:15px}.big-logo{padding-bottom:40px}.reference-single .case-brand{aspect-ratio:4/3}}
+@media(max-width:900px){header>.logo::after{display:none}}

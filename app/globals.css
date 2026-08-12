@@ -39,3 +39,4 @@ header>.logo::after{margin-left:18px}
 .big-logo::before{content:"";display:block;width:min(88vw,1550px);aspect-ratio:1550/76;background:url("/assets/images/byo-wordmark.png") center/contain no-repeat;filter:invert(1)}
 .wok-momo-art{color:#f7ead0;background:linear-gradient(145deg,#7b1817,#2b0908)}
 @media(max-width:560px){header>.logo::before{width:36px;height:22px}header>.logo::after{margin-left:12px}.logo::after{width:138px;height:15px}.big-logo{padding-bottom:40px}}
+@media(max-width:900px){header>.logo::after{display:none}}
