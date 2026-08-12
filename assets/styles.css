@@ -221,8 +221,8 @@ body{
 /* Brand symbol beside the wordmark in the site header. */
 header>.logo{display:inline-flex;align-items:center;gap:0;justify-self:start;white-space:nowrap}
 header>.logo::before{content:"";display:block;flex:0 0 auto;width:42px;height:26px;background:url("./images/byo-symbol.png") center/contain no-repeat}
-header>.logo::after{margin-left:5px}
-@media(max-width:560px){header>.logo::before{width:36px;height:22px}header>.logo::after{margin-left:3px}}
+header>.logo::after{margin-left:18px}
+@media(max-width:560px){header>.logo::before{width:36px;height:22px}header>.logo::after{margin-left:12px}}
 
 /* Use the supplied wordmark artwork everywhere a visual logo appears. */
 .logo{display:inline-flex;align-items:center;width:max-content;font-size:0;letter-spacing:0;white-space:nowrap}
