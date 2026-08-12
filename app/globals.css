@@ -30,11 +30,12 @@ html,body{background:#fbf8f3}
 
 /* Shared brand artwork and the real Wok & Momo reference. */
 .logo{display:inline-flex;align-items:center;width:max-content;font-size:0;letter-spacing:0;white-space:nowrap}
-header>.logo{gap:10px;justify-self:start}
+header>.logo{gap:0;justify-self:start}
 header>.logo::before{content:"";display:block;flex:0 0 auto;width:42px;height:26px;background:url("/assets/images/byo-symbol.png") center/contain no-repeat}
 .logo::after{content:"";display:block;width:174px;height:18px;background:url("/assets/images/byo-wordmark.png") center/contain no-repeat}
+header>.logo::after{margin-left:5px}
 .foot .logo::after{filter:invert(1)}
 .big-logo{display:flex;justify-content:center;align-items:center;padding:0 4vw 55px;font-size:0;line-height:0}
 .big-logo::before{content:"";display:block;width:min(88vw,1550px);aspect-ratio:1550/76;background:url("/assets/images/byo-wordmark.png") center/contain no-repeat;filter:invert(1)}
 .wok-momo-art{color:#f7ead0;background:linear-gradient(145deg,#7b1817,#2b0908)}
-@media(max-width:560px){header>.logo{gap:8px}header>.logo::before{width:36px;height:22px}.logo::after{width:138px;height:15px}.big-logo{padding-bottom:40px}}
+@media(max-width:560px){header>.logo::before{width:36px;height:22px}header>.logo::after{margin-left:3px}.logo::after{width:138px;height:15px}.big-logo{padding-bottom:40px}}
