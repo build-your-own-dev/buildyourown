@@ -4,7 +4,7 @@ import { DesktopNav, LiquidGlassRuntime, MobileNav, PageRevealRuntime, ThemeTogg
 import "./globals.css";
 
 export const metadata:Metadata={metadataBase:new URL("https://www.build-your-own.ch"),title:{default:"BuildYourOwn — Webdesign Schweiz",template:"%s — BuildYourOwn"},description:"Moderne, schnelle und bezahlbare Websites für Unternehmen in der Schweiz und DACH.",openGraph:{title:"BuildYourOwn",description:"Deine Website. Schnell. Modern. Bezahlbar.",type:"website",locale:"de_CH"},other:{"codex-preview":"development"}};
-export default function Layout({children}:{children:React.ReactNode}){return <html lang="de" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{__html:'try{const t=localStorage.getItem("byo-theme");document.documentElement.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch{document.documentElement.dataset.theme="light"}'}}/></head><body>
+export default function Layout({children}:{children:React.ReactNode}){return <html lang="de" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{__html:'try{document.documentElement.dataset.theme=localStorage.getItem("byo-theme")==="dark"?"dark":"light"}catch{document.documentElement.dataset.theme="light"}'}}/></head><body>
 <LiquidGlassRuntime/>
 <PageRevealRuntime/>
 <header><Link className="logo" href="/">BUILD<span>YOUR</span>OWN<i>.</i></Link><DesktopNav/><Link className="head-cta" href="/kontakt">Projekt starten ↗</Link><MobileNav/><aside className="site-notice" aria-label="Hinweis zum Stand der Website"><i/>Diese Website ist in Arbeit. Manche Inhalte stimmen möglicherweise nicht mit dem geplanten Endprodukt überein.</aside></header>{children}
