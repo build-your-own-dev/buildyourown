@@ -11,7 +11,7 @@
     ['news', 'News & Blog', 'Neuigkeiten, Geschichten und Beiträge veröffentlichen.'],
     ['shop', 'Onlineshop', 'Produkte präsentieren und online verkaufen.'],
     ['editing', 'Inhalte selbst bearbeiten', 'Texte und Bilder nach dem Launch selbst pflegen.'],
-    ['menu', 'Speise- oder Preiskarte', 'Dein Angebot übersichtlich und digital zeigen.'],
+    ['menu', 'Speisekarte & Angebote', 'Dein Angebot übersichtlich und digital zeigen.'],
     ['faq', 'Häufige Fragen', 'Wichtige Antworten an einem Ort bereitstellen.']
   ];
   const form = document.getElementById('project-form');
@@ -146,7 +146,7 @@
     }
     lines.push('', `Gewünschter Start: ${value('timeline')}`, `Bestehende Website: ${value('existingSite') || 'Keine angegeben'}`);
     if (value('message')) lines.push('', 'Weitere Wünsche:', value('message'));
-    lines.push('', 'Kontakt:', `Name: ${value('contactName')}`, `E-Mail: ${value('contactEmail')}`, '', 'Ich freue mich auf eine unverbindliche Offerte.');
+    lines.push('', 'Kontakt:', `Name: ${value('contactName')}`, `E-Mail: ${value('contactEmail')}`, '', 'Ich freue mich auf eure Rückmeldung per E-Mail.');
     return lines.join('\n');
   }
 
