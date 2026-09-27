@@ -67,10 +67,10 @@
   pointer-events: none;
   text-shadow: 0 2px 28px rgba(0,0,0,.34);
 }
-.byo-device-host + section {
+.byo-after-device {
   position: relative;
   z-index: 3;
-  margin-top: -52vh;
+  margin-top: -58vh !important;
 }
 .byo-device-kicker,
 .byo-device-line {
@@ -109,7 +109,7 @@
   .byo-device-sticky { min-height: 0; }
   .byo-device-visual { width: 118%; }
   .byo-device-line { font-size: clamp(2.2rem, 11vw, 4rem); }
-  .byo-device-host + section { margin-top: -42vh; }
+  .byo-after-device { margin-top: -45vh !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   .byo-device-showcase { height: auto; min-height: 0; }
@@ -117,5 +117,5 @@
   .byo-device-visual { transform: none; }
   .byo-device-image { filter: none; }
   .byo-device-copy { display: none; }
-  .byo-device-host + section { margin-top: 0; }
+  .byo-after-device { margin-top: 0 !important; }
 }

@@ -59,6 +59,11 @@
   }
 
   function attachShowcase() {
+    const followingHeading = [...document.querySelectorAll('h2')].find((heading) =>
+      heading.textContent?.includes('Warum Schweizer Betriebe')
+    );
+    followingHeading?.closest('section')?.classList.add('byo-after-device');
+
     const image = document.querySelector('img[alt="Website-Darstellung auf Laptop und Smartphone"]');
     if (!image || image.closest('.byo-device-showcase')) return;
 
