@@ -39,3 +39,58 @@
   document.fonts?.ready.then(schedule);
   attach();
 })();
+
+// Apple-inspired sticky device showcase on the homepage.
+(() => {
+  let showcase;
+  let frame;
+
+  function updateShowcase() {
+    frame = 0;
+    if (!showcase) return;
+    const rect = showcase.getBoundingClientRect();
+    const distance = Math.max(1, showcase.offsetHeight - window.innerHeight);
+    const progress = Math.min(1, Math.max(0, -rect.top / distance));
+    showcase.style.setProperty('--showcase-progress', progress.toFixed(4));
+  }
+
+  function scheduleShowcase() {
+    if (!frame) frame = requestAnimationFrame(updateShowcase);
+  }
+
+  function attachShowcase() {
+    const image = document.querySelector('img[alt="Website-Darstellung auf Laptop und Smartphone"]');
+    if (!image || image.closest('.byo-device-showcase')) return;
+
+    const original = image.parentElement;
+    if (!original?.parentElement) return;
+
+    showcase = document.createElement('section');
+    showcase.className = 'byo-device-showcase';
+    showcase.setAttribute('aria-label', 'Responsive Webdesign');
+
+    const sticky = document.createElement('div');
+    sticky.className = 'byo-device-sticky';
+    const visual = document.createElement('div');
+    visual.className = 'byo-device-visual';
+    const copy = document.createElement('div');
+    copy.className = 'byo-device-copy';
+    copy.innerHTML = `
+      <p class="byo-device-kicker">Webdesign, das sich anpasst.</p>
+      <p class="byo-device-line byo-device-line-one">Für jedes Gerät gestaltet.</p>
+      <p class="byo-device-line byo-device-line-two">Klar. Schnell. Unverwechselbar.</p>
+    `;
+
+    original.parentElement.insertBefore(showcase, original);
+    visual.appendChild(original);
+    sticky.append(visual, copy);
+    showcase.appendChild(sticky);
+    image.classList.add('byo-device-image');
+    scheduleShowcase();
+  }
+
+  new MutationObserver(attachShowcase).observe(document.documentElement, {childList: true, subtree: true});
+  window.addEventListener('scroll', scheduleShowcase, {passive: true});
+  window.addEventListener('resize', scheduleShowcase, {passive: true});
+  attachShowcase();
+})();

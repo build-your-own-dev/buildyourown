@@ -22,3 +22,93 @@
 @media (prefers-reduced-motion: reduce) {
   .byo-sliding-nav::after { transition: none; }
 }
+
+.byo-device-showcase {
+  --showcase-progress: 0;
+  position: relative;
+  height: 230vh;
+  min-height: 112rem;
+  margin-top: 4rem;
+}
+.byo-device-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 42rem;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+.byo-device-visual {
+  width: 100%;
+  transform: scale(calc(.92 + var(--showcase-progress) * .08));
+  transform-origin: center center;
+  will-change: transform;
+}
+.byo-device-visual > * {
+  margin-top: 0 !important;
+}
+.byo-device-image {
+  filter: brightness(calc(1 - var(--showcase-progress) * .28));
+  transition: filter 80ms linear;
+}
+.byo-device-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #fff;
+  text-align: center;
+  pointer-events: none;
+  text-shadow: 0 2px 28px rgba(0,0,0,.34);
+}
+.byo-device-kicker,
+.byo-device-line {
+  margin: 0;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.byo-device-kicker {
+  margin-bottom: 1rem;
+  font-size: clamp(.72rem, 1vw, .9rem);
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  opacity: clamp(0, calc((var(--showcase-progress) - .08) * 8), 1);
+  transform: translateY(calc((.18 - var(--showcase-progress)) * 80px));
+}
+.byo-device-line {
+  max-width: 14ch;
+  font-size: clamp(2.25rem, 6vw, 6.5rem);
+  font-weight: 650;
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+.byo-device-line-one {
+  opacity: clamp(0, calc((var(--showcase-progress) - .13) * 7), calc((.64 - var(--showcase-progress)) * 7));
+  transform: translateY(calc((.34 - var(--showcase-progress)) * 150px));
+}
+.byo-device-line-two {
+  position: absolute;
+  opacity: clamp(0, calc((var(--showcase-progress) - .53) * 7), calc((1.05 - var(--showcase-progress)) * 7));
+  transform: translateY(calc((.7 - var(--showcase-progress)) * 150px));
+}
+
+@media (max-width: 700px) {
+  .byo-device-showcase { height: 185vh; min-height: 70rem; margin-top: 2rem; }
+  .byo-device-sticky { min-height: 34rem; }
+  .byo-device-visual { width: 118%; }
+  .byo-device-line { font-size: clamp(2.2rem, 11vw, 4rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .byo-device-showcase { height: auto; min-height: 0; }
+  .byo-device-sticky { position: relative; height: auto; min-height: 0; overflow: visible; }
+  .byo-device-visual { transform: none; }
+  .byo-device-image { filter: none; }
+  .byo-device-copy { display: none; }
+}
