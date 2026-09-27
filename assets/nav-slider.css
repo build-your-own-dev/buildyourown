@@ -2,6 +2,20 @@
   position: relative;
   --slider-opacity: 0;
 }
+.byo-brand-mark {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  align-items: center;
+  justify-content: center;
+}
+.byo-brand-symbol {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 .byo-sliding-nav::after {
   content: '';
   position: absolute;

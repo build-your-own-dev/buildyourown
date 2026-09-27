@@ -4,6 +4,20 @@
   let activeObserver;
   let resizeObserver;
   let frame;
+  function attachBrand() {
+    const brand = document.querySelector('a[aria-label$="— Startseite"]');
+    const mark = brand?.querySelector('span:first-child');
+    if (!mark || mark.querySelector('.byo-brand-symbol')) return;
+    mark.className = 'byo-brand-mark';
+    mark.textContent = '';
+    const logo = document.createElement('img');
+    logo.className = 'byo-brand-symbol';
+    logo.src = './assets/byo-symbol.png';
+    logo.alt = '';
+    logo.width = 32;
+    logo.height = 32;
+    mark.appendChild(logo);
+  }
   function update() {
     if (!nav) return;
     const active = nav.querySelector('a[data-status="active"], a[aria-current="page"], a.bg-secondary');
@@ -20,6 +34,7 @@
     frame = requestAnimationFrame(update);
   }
   function attach() {
+    attachBrand();
     const next = document.querySelector('nav[aria-label="Hauptnavigation"]');
     if (next === nav) return;
     activeObserver?.disconnect();
