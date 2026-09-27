@@ -26,23 +26,22 @@
 .byo-device-showcase {
   --showcase-progress: 0;
   position: relative;
-  height: 230vh;
-  min-height: 112rem;
-  margin-top: 4rem;
+  height: 190vh;
+  margin-top: 1.5rem;
 }
 .byo-device-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
-  min-height: 42rem;
+  min-height: 34rem;
   overflow: hidden;
   display: grid;
   place-items: center;
   isolation: isolate;
 }
 .byo-device-visual {
-  width: 100%;
-  transform: scale(calc(.92 + var(--showcase-progress) * .08));
+  width: min(96vw, 100rem);
+  transform: scale(calc(.98 + var(--showcase-progress) * .04));
   transform-origin: center center;
   will-change: transform;
 }
@@ -50,7 +49,9 @@
   margin-top: 0 !important;
 }
 .byo-device-image {
-  filter: brightness(calc(1 - var(--showcase-progress) * .28));
+  max-height: 88vh;
+  object-fit: contain !important;
+  filter: brightness(calc(1 - clamp(0, calc((var(--showcase-progress) - .02) * 2.8), .52)));
   transition: filter 80ms linear;
 }
 .byo-device-copy {
@@ -79,8 +80,8 @@
   font-weight: 600;
   letter-spacing: .16em;
   text-transform: uppercase;
-  opacity: clamp(0, calc((var(--showcase-progress) - .08) * 8), 1);
-  transform: translateY(calc((.18 - var(--showcase-progress)) * 80px));
+  opacity: clamp(0, calc((var(--showcase-progress) - .01) * 10), 1);
+  transform: translateY(calc((.1 - var(--showcase-progress)) * 70px));
 }
 .byo-device-line {
   max-width: 14ch;
@@ -90,17 +91,17 @@
   letter-spacing: -.055em;
 }
 .byo-device-line-one {
-  opacity: clamp(0, calc((var(--showcase-progress) - .13) * 7), calc((.64 - var(--showcase-progress)) * 7));
-  transform: translateY(calc((.34 - var(--showcase-progress)) * 150px));
+  opacity: clamp(0, calc((var(--showcase-progress) - .03) * 10), calc((.55 - var(--showcase-progress)) * 8));
+  transform: translateY(calc((.2 - var(--showcase-progress)) * 120px));
 }
 .byo-device-line-two {
   position: absolute;
-  opacity: clamp(0, calc((var(--showcase-progress) - .53) * 7), calc((1.05 - var(--showcase-progress)) * 7));
-  transform: translateY(calc((.7 - var(--showcase-progress)) * 150px));
+  opacity: clamp(0, calc((var(--showcase-progress) - .46) * 9), calc((1.04 - var(--showcase-progress)) * 8));
+  transform: translateY(calc((.62 - var(--showcase-progress)) * 120px));
 }
 
 @media (max-width: 700px) {
-  .byo-device-showcase { height: 185vh; min-height: 70rem; margin-top: 2rem; }
+  .byo-device-showcase { height: 165vh; margin-top: 1rem; }
   .byo-device-sticky { min-height: 34rem; }
   .byo-device-visual { width: 118%; }
   .byo-device-line { font-size: clamp(2.2rem, 11vw, 4rem); }
