@@ -26,14 +26,14 @@
 .byo-device-showcase {
   --showcase-progress: 0;
   position: relative;
-  height: 190vh;
+  height: 125vh;
   margin-top: 1.5rem;
 }
 .byo-device-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
-  min-height: 34rem;
+  min-height: 0;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -101,8 +101,8 @@
 }
 
 @media (max-width: 700px) {
-  .byo-device-showcase { height: 165vh; margin-top: 1rem; }
-  .byo-device-sticky { min-height: 34rem; }
+  .byo-device-showcase { height: 120vh; margin-top: 1rem; }
+  .byo-device-sticky { min-height: 0; }
   .byo-device-visual { width: 118%; }
   .byo-device-line { font-size: clamp(2.2rem, 11vw, 4rem); }
 }
