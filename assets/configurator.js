@@ -21,7 +21,7 @@
   const value = name => field(name).value.trim();
   const selected = () => features.filter(([id]) => document.getElementById(`feature-${id}`).checked);
   const has = id => document.getElementById(`feature-${id}`).checked;
-  const pages = () => value('scope') === 'custom' ? value('customPages') : value('scope');
+  const pages = () => value('pageCount');
   let step = 0;
 
   features.forEach(([id, title, description]) => {
@@ -49,10 +49,6 @@
   }
 
   function update() {
-    const custom = value('scope') === 'custom';
-    document.getElementById('custom-pages-wrap').hidden = !custom;
-    field('customPages').disabled = !custom;
-    field('customPages').required = custom;
     toggleDetails('hours-details', has('hours'));
     toggleDetails('timed-details', has('timed'));
     const start = value('timedStart');
@@ -60,7 +56,12 @@
     field('timedEnd').min = start;
     field('timedEnd').setCustomValidity(has('timed') && start && end && end < start ? 'Das Enddatum muss am oder nach dem Startdatum liegen.' : '');
     const count = Number(pages());
-    document.getElementById('summary-pages').textContent = Number.isInteger(count) && count >= 1 && count <= 100 ? `${count} ${count === 1 ? 'Seite' : 'Seiten'}` : 'Anzahl festlegen';
+    const validCount = Number.isInteger(count) && count >= 3 && count <= 30;
+    field('pageCount').setCustomValidity(validCount ? '' : 'Bitte wähle zwischen 3 und 30 Seiten.');
+    document.getElementById('summary-pages').textContent = `${count} Seiten`;
+    document.getElementById('page-count').replaceChildren(document.createTextNode(`${count} `), Object.assign(document.createElement('small'), {textContent: 'Seiten'}));
+    field('pageCount').setAttribute('aria-valuetext', `${count} Seiten`);
+    field('pageCount').style.setProperty('--range-progress', `${((count - 3) / 27) * 100}%`);
     document.getElementById('summary-business').textContent = value('business');
     const list = document.getElementById('summary-features');
     list.replaceChildren();
@@ -77,6 +78,7 @@
       empty.textContent = 'Noch keine Extras ausgewählt.';
       list.append(empty);
     }
+    document.getElementById('request-preview').textContent = requestText();
   }
 
   function showStep(next, focus = true) {
@@ -153,25 +155,66 @@
     document.getElementById('copy-fallback').hidden = false;
     document.getElementById('request-text').value = text;
   }
-  // Validate step by step so invalid fields are visible before focusing them.
+  // Native HTTPS POST keeps the provider's CAPTCHA and delivery confirmation flow.
+  // No email client is involved, and no client-side mail credentials are exposed.
   form.noValidate = true;
+  let sending = false;
   form.addEventListener('submit', event => {
     event.preventDefault();
+    if (sending) return;
     if (step < 2) { go(step + 1); return; }
     if (!validateThrough(2)) return;
-    const text = requestText();
-    const subject = `Website-Anfrage${value('projectName') ? `: ${value('projectName')}` : ''}`;
-    const mailto = `mailto:contact.buildyourown@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
-    // Long mailto URLs can be truncated by email clients. Keep the complete request available.
-    revealText(text);
-    if (mailto.length > 7500) {
-      status.textContent = 'Deine Anfrage ist umfangreich. Kopiere den vollständigen Text unten und sende ihn an contact.buildyourown@gmail.com.';
-      document.getElementById('request-text').focus();
-      document.getElementById('request-text').select();
-      return;
+    const payload = {
+      _subject: `Neue Website-Anfrage${value('projectName') ? `: ${value('projectName')}` : ''}`,
+      _template: 'table',
+      _next: new URL('./anfrage-erhalten.html', window.location.href).href,
+      name: value('contactName'),
+      email: value('contactEmail'),
+      _replyto: value('contactEmail'),
+      'Projekt / Firma': value('projectName') || 'Noch offen',
+      Bereich: value('business'),
+      Seitenanzahl: `${pages()} Seiten (ohne rechtliche Seiten)`,
+      Funktionen: selected().map(([, title]) => title).join(', ') || 'Keine zusätzlichen Funktionen',
+      'Gewünschter Start': value('timeline'),
+      'Bestehende Website': value('existingSite') || 'Keine angegeben',
+      'Formular-Zusammenfassung': requestText()
+    };
+    const outbound = document.createElement('form');
+    outbound.method = 'POST';
+    outbound.action = 'https://formsubmit.co/contact.buildyourown@gmail.com';
+    outbound.hidden = true;
+    outbound.dataset.transport = 'project-request';
+    Object.entries(payload).forEach(([name, value]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      input.value = value;
+      outbound.append(input);
+    });
+    document.body.append(outbound);
+    sending = true;
+    const sendButton = document.getElementById('send-request');
+    sendButton.disabled = true;
+    sendButton.textContent = 'Weiter zum Versand …';
+    status.textContent = 'Deine Anfrage wird an den Versanddienst übergeben. Bitte schliesse dort gegebenenfalls die Sicherheitsprüfung ab.';
+    try {
+      HTMLFormElement.prototype.submit.call(outbound);
+    } catch {
+      sending = false;
+      sendButton.disabled = false;
+      sendButton.textContent = 'Erneut absenden ↗';
+      status.textContent = 'Die Anfrage konnte nicht übergeben werden. Deine Eingaben bleiben erhalten. Bitte versuche es erneut.';
+      outbound.remove();
     }
-    status.textContent = 'Die E-Mail wurde vorbereitet. Bitte prüfe und sende sie in deinem E-Mail-Programm. Falls es sich nicht öffnet, kopiere den Text unten.';
-    window.location.href = mailto;
+  });
+  window.addEventListener('pageshow', () => {
+    sending = false;
+    const button = document.getElementById('send-request');
+    button.disabled = false;
+    button.textContent = 'Anfrage absenden ↗';
+    status.textContent = '';
+    document.querySelectorAll('form[data-transport]').forEach(node => node.remove());
+    requestAnimationFrame(update);
   });
   document.getElementById('copy-request').addEventListener('click', async () => {
     if (!validateThrough(2)) return;
@@ -179,13 +222,13 @@
     try {
       if (!navigator.clipboard) throw new Error('Clipboard unavailable');
       await navigator.clipboard.writeText(text);
-      status.textContent = 'Anfrage kopiert. Füge sie in eine E-Mail an contact.buildyourown@gmail.com ein.';
+      status.textContent = 'Zusammenfassung kopiert. Du kannst sie für deine Unterlagen speichern.';
     } catch {
       revealText(text);
       const box = document.getElementById('request-text');
       box.focus();
       box.select();
-      status.textContent = 'Bitte kopiere den markierten Text und sende ihn an contact.buildyourown@gmail.com.';
+      status.textContent = 'Bitte kopiere den markierten Text für deine Unterlagen.';
     }
   });
   document.getElementById('year').textContent = new Date().getFullYear();

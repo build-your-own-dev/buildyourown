@@ -6,8 +6,8 @@
   <title>Website konfigurieren | BuildYourOwn</title>
   <meta name="description" content="Konfiguriere deine neue Website: Seitenanzahl, Öffnungszeiten, zeitlich begrenzte Inhalte und weitere Funktionen. Unverbindliche Projektanfrage an BuildYourOwn aus Chur.">
   <link rel="icon" href="./favicon.ico">
-  <link rel="stylesheet" href="./assets/configurator.css">
-  <script defer src="./assets/configurator.js"></script>
+  <link rel="stylesheet" href="./assets/configurator.css?v=2">
+  <script defer src="./assets/configurator.js?v=2"></script>
 </head>
 <body>
   <a class="skip" href="#configurator">Zum Konfigurator</a>
@@ -39,13 +39,12 @@
             <p class="section-description">Eine kompakte Visitenkarte oder Platz für dein ganzes Angebot – du entscheidest.</p>
             <fieldset>
               <legend>Wie viele Seiten brauchst du?</legend>
-              <div class="page-options">
-                <label class="page-card"><input type="radio" name="scope" value="1"><span class="choice-mark"></span><span class="page-number">01</span><strong>Onepager</strong><small>Alles auf einer Seite</small></label>
-                <label class="page-card"><input type="radio" name="scope" value="5" checked><span class="choice-mark"></span><span class="page-number">05</span><strong>Kleine Website</strong><small>Platz für dein Angebot</small></label>
-                <label class="page-card"><input type="radio" name="scope" value="10"><span class="choice-mark"></span><span class="page-number">10</span><strong>Mehr Möglichkeiten</strong><small>Für umfangreiche Inhalte</small></label>
-                <label class="page-card"><input type="radio" name="scope" value="custom"><span class="choice-mark"></span><span class="page-number">+</span><strong>Individuell</strong><small>Du legst die Anzahl fest</small></label>
+              <div class="page-slider-card">
+                <div class="page-slider-heading"><span>Dein Umfang</span><output id="page-count" for="page-slider">5 <small>Seiten</small></output></div>
+                <label for="page-slider" class="sr-only">Seitenanzahl, 3 bis 30 Seiten</label>
+                <input id="page-slider" name="pageCount" type="range" min="3" max="30" step="1" value="5" aria-valuetext="5 Seiten">
+                <div class="page-slider-limits"><span>3 Seiten</span><span>30 Seiten</span></div>
               </div>
-              <div id="custom-pages-wrap" class="detail-box" hidden><label for="custom-pages">Gewünschte Seitenanzahl</label><input id="custom-pages" name="customPages" type="number" value="15" min="1" max="100" step="1" disabled><p class="hint">1–100 Inhaltsseiten. Grössere Projekte kannst du unten beschreiben.</p></div>
               <p class="hint">Zum Beispiel Startseite, Über uns, Leistungen, Arbeiten und Kontakt. Rechtliche Seiten besprechen wir zusätzlich.</p>
             </fieldset>
             <div class="form-grid">
@@ -77,7 +76,7 @@
           <section class="panel" data-panel="2" aria-labelledby="heading-2" hidden>
             <div class="section-kicker">03 / LASS UNS LOSLEGEN</div>
             <h2 id="heading-2" tabindex="-1">Aus deiner Idee wird ein Projekt.</h2>
-            <p class="section-description">Ergänze deine Kontaktdaten und Wünsche. Deine Auswahl wird in die E-Mail übernommen.</p>
+            <p class="section-description">Ergänze deine Kontaktdaten und prüfe die Zusammenfassung. Wir erhalten deine Anfrage direkt als übersichtliches Formular.</p>
             <div class="form-grid">
               <div><label for="contact-name">Dein Name <span class="required">*</span></label><input id="contact-name" name="contactName" autocomplete="name" required maxlength="100" placeholder="Vor- und Nachname"></div>
               <div><label for="contact-email">E-Mail <span class="required">*</span></label><input id="contact-email" name="contactEmail" type="email" autocomplete="email" required maxlength="180" placeholder="du@unternehmen.ch"></div>
@@ -85,11 +84,12 @@
               <div><label for="existing-site">Bestehende Website <span class="optional">optional</span></label><input id="existing-site" name="existingSite" maxlength="180" placeholder="www.deine-website.ch" autocomplete="url"></div>
             </div>
             <label for="message">Was sollten wir noch wissen? <span class="optional">optional</span></label><textarea id="message" name="message" maxlength="1500" rows="5" placeholder="Erzähl uns von deiner Idee, deinen Wunschseiten oder besonderen Anforderungen …"></textarea>
-            <p class="privacy-note">Mit «E-Mail vorbereiten» öffnest du dein E-Mail-Programm. Erst wenn du dort auf Senden klickst, erhalten wir deine Anfrage. <a href="./#/datenschutz">Datenschutz</a></p>
-            <div class="submission-actions"><button class="button primary" type="submit">E-Mail vorbereiten <span aria-hidden="true">↗</span></button><button class="button secondary" type="button" id="copy-request">Anfrage kopieren</button></div>
+            <details class="request-review" open><summary>Deine Formular-Zusammenfassung</summary><pre id="request-preview"></pre></details>
+            <p class="privacy-note">Mit dem Absenden werden deine Kontaktdaten und deine Projekt-Zusammenfassung über FormSubmit an contact.buildyourown@gmail.com übermittelt. Anschliessend kann eine Sicherheitsprüfung erscheinen. <a href="./#/datenschutz">Datenschutz</a> · <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">Datenschutz bei FormSubmit</a></p>
+            <div class="submission-actions"><button class="button primary" type="submit" id="send-request">Anfrage absenden <span aria-hidden="true">↗</span></button><button class="button secondary" type="button" id="copy-request">Zusammenfassung kopieren</button></div>
             <p id="submit-status" class="status" role="status"></p>
-            <div id="copy-fallback" hidden><label for="request-text">Deine Anfrage zum Kopieren</label><textarea id="request-text" readonly rows="12"></textarea></div>
-            <p class="hint">Kein E-Mail-Programm eingerichtet? Kopiere die Anfrage und sende sie an <a href="mailto:contact.buildyourown@gmail.com">contact.buildyourown@gmail.com</a>.</p>
+            <div id="copy-fallback" hidden><label for="request-text">Deine Zusammenfassung zum Kopieren</label><textarea id="request-text" readonly rows="12"></textarea></div>
+            <p class="hint">Unverbindlich und ohne eigenes E-Mail-Programm. Deine Anfrage wird erst mit «Anfrage absenden» übermittelt.</p>
           </section>
           <div class="step-footer"><button class="button secondary" type="button" id="previous" hidden>← Zurück</button><span id="step-caption">Schritt 1 von 3</span><button class="button primary" type="button" id="next">Funktionen wählen <span aria-hidden="true">→</span></button></div>
         </form>
