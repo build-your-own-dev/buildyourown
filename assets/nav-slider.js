@@ -81,7 +81,9 @@
       <p class="byo-device-line byo-device-line-two">Klar. Schnell. Unverwechselbar.</p>
     `;
 
-    original.parentElement.insertBefore(showcase, original);
+    const host = original.parentElement;
+    host.classList.add('byo-device-host');
+    host.insertBefore(showcase, original);
     visual.appendChild(original);
     sticky.append(visual, copy);
     showcase.appendChild(sticky);
