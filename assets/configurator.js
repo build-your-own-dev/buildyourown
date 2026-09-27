@@ -123,7 +123,7 @@
 
   function requestText() {
     const lines = [
-      'Hallo BuildYourOwn', '', 'Ich interessiere mich für eine Website mit folgender Konfiguration:', '',
+      'Hallo Build Your Own', '', 'Ich interessiere mich für eine Website mit folgender Konfiguration:', '',
       `Projekt / Firma: ${value('projectName') || 'Noch offen'}`,
       `Bereich: ${value('business')}`,
       `Umfang: ${pages()} ${pages() === '1' ? 'Seite' : 'Seiten'} (ohne rechtliche Seiten)`, '',

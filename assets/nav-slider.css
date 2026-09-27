@@ -16,6 +16,18 @@
   height: 100%;
   object-fit: contain;
 }
+.byo-brand-name {
+  display: flex;
+  align-items: center;
+  height: 1.25rem;
+}
+.byo-brand-wordmark {
+  display: block;
+  width: auto;
+  height: .72rem;
+  max-width: 9.5rem;
+  object-fit: contain;
+}
 .byo-sliding-nav::after {
   content: '';
   position: absolute;

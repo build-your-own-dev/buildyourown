@@ -16,3 +16,11 @@
   height: 100%;
   object-fit: contain;
 }
+
+.brand-wordmark {
+  display: block;
+  width: auto;
+  height: 12px;
+  max-width: 152px;
+  object-fit: contain;
+}

@@ -6,17 +6,30 @@
   let frame;
   function attachBrand() {
     const brand = document.querySelector('a[aria-label$="— Startseite"]');
-    const mark = brand?.querySelector('span:first-child');
-    if (!mark || mark.querySelector('.byo-brand-symbol')) return;
-    mark.className = 'byo-brand-mark';
-    mark.textContent = '';
-    const logo = document.createElement('img');
-    logo.className = 'byo-brand-symbol';
-    logo.src = './assets/byo-symbol.png';
-    logo.alt = '';
-    logo.width = 32;
-    logo.height = 32;
-    mark.appendChild(logo);
+    if (!brand) return;
+    const parts = brand.querySelectorAll(':scope > span');
+    const mark = parts[0];
+    const name = parts[1];
+    if (mark && !mark.querySelector('.byo-brand-symbol')) {
+      mark.className = 'byo-brand-mark';
+      mark.textContent = '';
+      const logo = document.createElement('img');
+      logo.className = 'byo-brand-symbol';
+      logo.src = './assets/byo-symbol.png';
+      logo.alt = '';
+      logo.width = 32;
+      logo.height = 32;
+      mark.appendChild(logo);
+    }
+    if (name && !name.querySelector('.byo-brand-wordmark')) {
+      name.className = 'byo-brand-name';
+      name.textContent = '';
+      const wordmark = document.createElement('img');
+      wordmark.className = 'byo-brand-wordmark';
+      wordmark.src = './assets/build-your-own-wordmark.png';
+      wordmark.alt = 'Build Your Own';
+      name.appendChild(wordmark);
+    }
   }
   function update() {
     if (!nav) return;

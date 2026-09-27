@@ -1,4 +1,4 @@
-# BuildYourOwn – statische Website (GitHub Pages)
+# Build Your Own – statische Website (GitHub Pages)
 
 1. Inhalt dieses Ordners in ein GitHub-Repo pushen (Root oder /docs).
 2. Settings → Pages → Source: Branch (z. B. main), Ordner / (root).
