@@ -131,6 +131,7 @@
 }
 
 @media (max-width: 700px) {
+  .byo-brand-name { display: none; }
   .byo-device-showcase { height: 120vh; margin-top: 1rem; }
   .byo-device-sticky { min-height: 0; }
   .byo-device-visual { width: 118%; }
