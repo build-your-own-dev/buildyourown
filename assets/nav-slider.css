@@ -132,11 +132,30 @@
 
 @media (max-width: 700px) {
   .byo-brand-name { display: none; }
-  .byo-device-showcase { height: 120vh; margin-top: 1rem; }
-  .byo-device-sticky { min-height: 0; }
-  .byo-device-visual { width: 118%; }
+  .byo-device-showcase {
+    height: auto;
+    min-height: 0;
+    margin-top: 1rem;
+  }
+  .byo-device-sticky {
+    position: relative;
+    top: auto;
+    display: block;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  .byo-device-visual {
+    width: 100%;
+    transform: none;
+  }
+  .byo-device-image {
+    display: block;
+    width: 100%;
+    max-height: none;
+  }
   .byo-device-line { font-size: clamp(2.2rem, 11vw, 4rem); }
-  .byo-after-device { margin-top: -45vh !important; }
+  .byo-after-device { margin-top: 0 !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   .byo-device-showcase { height: auto; min-height: 0; }
