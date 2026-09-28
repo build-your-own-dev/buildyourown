@@ -238,3 +238,11 @@
     animation-delay: 0ms !important;
   }
 }
+
+
+/* Four-column desktop footer; stacked on smaller screens. */
+@media (min-width: 768px) {
+  .byo-footer-grid {
+    grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  }
+}
