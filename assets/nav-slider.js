@@ -129,3 +129,52 @@
   window.addEventListener('resize', scheduleShowcase, {passive: true});
   attachShowcase();
 })();
+
+
+// Animate the mobile navigation without changing its React behaviour.
+(() => {
+  const CLOSE_MS = 240;
+  let replayingClose = false;
+
+  function enhanceMobileMenu() {
+    const toggle = document.querySelector(
+      'button[aria-label="Menü öffnen"], button[aria-label="Menü schliessen"]'
+    );
+    toggle?.classList.add('byo-mobile-menu-toggle');
+
+    const nav = document.querySelector('nav[aria-label="Mobile Navigation"]');
+    const panel = nav?.parentElement;
+    if (panel && !panel.classList.contains('byo-mobile-menu-panel')) {
+      panel.classList.add('byo-mobile-menu-panel');
+      requestAnimationFrame(() => panel.classList.add('byo-mobile-menu-visible'));
+    }
+  }
+
+  document.addEventListener('click', (event) => {
+    if (replayingClose) return;
+    const toggle = event.target.closest?.('button[aria-label="Menü schliessen"]');
+    if (!toggle) return;
+
+    const panel = document.querySelector('nav[aria-label="Mobile Navigation"]')?.parentElement;
+    if (!panel) return;
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    panel.classList.add('byo-mobile-menu-closing');
+    toggle.classList.add('byo-mobile-menu-toggle-closing');
+
+    window.setTimeout(() => {
+      replayingClose = true;
+      toggle.click();
+      replayingClose = false;
+    }, CLOSE_MS);
+  }, true);
+
+  new MutationObserver(enhanceMobileMenu).observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['aria-expanded', 'aria-label']
+  });
+  enhanceMobileMenu();
+})();
