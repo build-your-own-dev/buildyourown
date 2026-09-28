@@ -167,6 +167,9 @@
       replayingClose = true;
       toggle.click();
       replayingClose = false;
+      requestAnimationFrame(() => {
+        toggle.classList.remove('byo-mobile-menu-toggle-closing');
+      });
     }, CLOSE_MS);
   }, true);
 
