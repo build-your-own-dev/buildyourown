@@ -8,10 +8,6 @@
     ['booking', 'Termine & Reservationen', 'Terminanfragen oder ein passendes Buchungssystem.'],
     ['languages', 'Mehrere Sprachen', 'Deine Inhalte in zusätzlichen Sprachen anbieten.'],
     ['map', 'Standort & Anfahrt', 'Adresse, Kartenansicht und Wegbeschreibung.'],
-    ['news', 'News & Blog', 'Neuigkeiten, Geschichten und Beiträge veröffentlichen.'],
-    ['shop', 'Onlineshop', 'Produkte präsentieren und online verkaufen.'],
-    ['editing', 'Inhalte selbst bearbeiten', 'Texte und Bilder nach dem Launch selbst pflegen.'],
-    ['menu', 'Speisekarte & Angebote', 'Dein Angebot übersichtlich und digital zeigen.'],
     ['faq', 'Häufige Fragen', 'Wichtige Antworten an einem Ort bereitstellen.']
   ];
   const form = document.getElementById('project-form');
@@ -22,7 +18,18 @@
   const selected = () => features.filter(([id]) => document.getElementById(`feature-${id}`).checked);
   const has = id => document.getElementById(`feature-${id}`).checked;
   const pages = () => value('pageCount');
+  const plans = {
+    small: {label: 'Small', pages: 3, included: ['hours', 'contact', 'gallery'], selected: ['hours', 'contact', 'gallery']},
+    basic: {label: 'Basic', pages: 5, included: ['hours', 'map', 'contact', 'gallery'], selected: ['hours', 'map', 'contact', 'gallery']},
+    business: {label: 'Business', pages: 8, included: ['hours', 'map', 'contact', 'gallery'], selected: ['hours', 'map', 'contact', 'gallery', 'booking', 'languages', 'faq', 'timed']}
+  };
+  const requestedPlan = new URLSearchParams(window.location.search).get('plan');
+  const activePlanKey = Object.hasOwn(plans, requestedPlan) ? requestedPlan : 'basic';
+  const activePlan = plans[activePlanKey];
+  const includedFeatures = new Set(activePlan.included);
   const priceForPages = count => 600 + (count > 5 ? (count - 5) * 70 : count < 5 ? -(5 - count) * 50 : 0);
+  const extraFeatureCount = () => selected().filter(([id]) => !includedFeatures.has(id)).length;
+  const totalPrice = () => priceForPages(Number(pages())) + extraFeatureCount() * 80;
   const formatPrice = price => `CHF ${price.toLocaleString('de-CH')}`;
   let step = 0;
 
@@ -39,10 +46,16 @@
     strong.textContent = title;
     const small = document.createElement('small');
     small.textContent = description;
-    text.append(strong, small);
+    const price = document.createElement('em');
+    price.className = 'feature-price';
+    price.textContent = includedFeatures.has(id) ? 'Im Paket inbegriffen' : '+ CHF 80';
+    text.append(strong, small, price);
     label.append(checkbox, text);
     document.getElementById('feature-grid').append(label);
   });
+
+  field('pageCount').value = String(activePlan.pages);
+  activePlan.selected.forEach(id => { document.getElementById(`feature-${id}`).checked = true; });
 
   function toggleDetails(id, enabled) {
     const box = document.getElementById(id);
@@ -60,7 +73,8 @@
     const count = Number(pages());
     const validCount = Number.isInteger(count) && count >= 3 && count <= 30;
     field('pageCount').setCustomValidity(validCount ? '' : 'Bitte wähle zwischen 3 und 30 Seiten.');
-    const price = priceForPages(count);
+    const price = totalPrice();
+    document.getElementById('summary-plan').textContent = activePlan.label;
     document.getElementById('summary-pages').textContent = `${count} Seiten`;
     document.getElementById('summary-price').textContent = formatPrice(price);
     document.getElementById('page-count').replaceChildren(document.createTextNode(`${count} `), Object.assign(document.createElement('small'), {textContent: 'Seiten'}));
@@ -72,9 +86,9 @@
     list.replaceChildren();
     const choices = selected();
     document.getElementById('feature-count').textContent = choices.length;
-    choices.forEach(([, title]) => {
+    choices.forEach(([id, title]) => {
       const li = document.createElement('li');
-      li.textContent = title;
+      li.textContent = `${title} ${includedFeatures.has(id) ? '· inbegriffen' : '· + CHF 80'}`;
       list.append(li);
     });
     if (!choices.length) {
@@ -131,8 +145,9 @@
       'Hallo Build Your Own', '', 'Ich interessiere mich für eine Website mit folgender Konfiguration:', '',
       `Projekt / Firma: ${value('projectName') || 'Noch offen'}`,
       `Bereich: ${value('business')}`,
+      `Paket: ${activePlan.label}`,
       `Umfang: ${pages()} ${pages() === '1' ? 'Seite' : 'Seiten'} (ohne rechtliche Seiten)`,
-      `Preis nach Seitenumfang: ${formatPrice(priceForPages(Number(pages())))}`, '',
+      `Gesamtpreis: ${formatPrice(totalPrice())}`, '',
       'Gewünschte Funktionen:',
       ...selected().map(([, title]) => `- ${title}`)
     ];
@@ -179,8 +194,9 @@
       _replyto: value('contactEmail'),
       'Projekt / Firma': value('projectName') || 'Noch offen',
       Bereich: value('business'),
+      Paket: activePlan.label,
       Seitenanzahl: `${pages()} Seiten (ohne rechtliche Seiten)`,
-      Preis: formatPrice(priceForPages(Number(pages()))),
+      Gesamtpreis: formatPrice(totalPrice()),
       Funktionen: selected().map(([, title]) => title).join(', ') || 'Keine zusätzlichen Funktionen',
       'Gewünschter Start': value('timeline'),
       'Bestehende Website': value('existingSite') || 'Keine angegeben',
