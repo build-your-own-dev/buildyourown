@@ -1,4 +1,13 @@
 (() => {
+  function setActive(nav, link) {
+    nav.querySelectorAll('a').forEach(item => {
+      item.removeAttribute('aria-current');
+      item.classList.remove('bg-secondary', 'text-foreground');
+    });
+    link?.setAttribute('aria-current', 'page');
+    link?.classList.add('bg-secondary', 'text-foreground');
+  }
+
   function addLink(nav) {
     if (!nav) return;
     let link = nav.querySelector('a[href$="konfigurator.html"]');
@@ -11,14 +20,10 @@
       nav.append(link);
     }
 
-    const isConfigurator = /\/(konfigurator|projekt|anfrage-erhalten)\.html$/.test(location.pathname);
-    if (isConfigurator) {
-      nav.querySelectorAll('a').forEach(item => {
-        item.removeAttribute('aria-current');
-        item.classList.remove('bg-secondary', 'text-foreground');
-      });
-      link.setAttribute('aria-current', 'page');
-      link.classList.add('bg-secondary', 'text-foreground');
+    if (/\/(konfigurator|projekt|anfrage-erhalten)\.html$/.test(location.pathname)) {
+      setActive(nav, link);
+    } else if (/\/wok-momo\.html$/.test(location.pathname)) {
+      setActive(nav, nav.querySelector('a[href*="portfolio"]'));
     }
   }
 
