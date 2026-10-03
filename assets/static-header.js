@@ -4,6 +4,16 @@
   const panel = header?.querySelector('[data-static-mobile-panel]');
   if (!header || !button || !panel) return;
 
+  const updateHeader = () => {
+    const scrolled = window.scrollY > 8;
+    header.classList.toggle('bg-background/80', scrolled);
+    header.classList.toggle('border-border/70', scrolled);
+    header.classList.toggle('bg-background/40', !scrolled);
+    header.classList.toggle('border-transparent', !scrolled);
+  };
+  window.addEventListener('scroll', updateHeader, {passive: true});
+  updateHeader();
+
   const menuIcon = '<svg viewBox="0 0 24 24" class="size-4" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   const closeIcon = '<svg viewBox="0 0 24 24" class="size-4" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
