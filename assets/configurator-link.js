@@ -15,7 +15,7 @@
       const template = nav.querySelector('a');
       link = document.createElement('a');
       link.href = './konfigurator.html';
-      link.textContent = 'Konfigurator';
+      link.textContent = 'Angebote';
       if (template) link.className = template.className;
       nav.append(link);
     }
