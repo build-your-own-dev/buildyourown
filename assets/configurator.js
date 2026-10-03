@@ -255,106 +255,35 @@
     }
   });
 
-  // Only public endpoint information is shipped to the browser.
-  const aiEndpoint = 'https://byo-ai.contact-buildyourown.workers.dev/configure';
-  const aiInput = document.getElementById('ai-description');
-  const aiGenerate = document.getElementById('ai-generate');
-  const aiStatus = document.getElementById('ai-status');
-  const aiPreview = document.getElementById('ai-preview');
-  const aiApply = document.getElementById('ai-apply');
-  let aiProposal = null;
-  let aiBusy = false;
-  const businessChoices = [...field('business').options].map(option => option.value);
-
-  function validProposal(proposal) {
-    return proposal && Number.isInteger(proposal.pageCount) && proposal.pageCount >= 3 && proposal.pageCount <= 30
-      && Array.isArray(proposal.features) && proposal.features.length <= features.length
-      && proposal.features.every(id => features.some(([known]) => known === id))
-      && businessChoices.includes(proposal.business)
-      && typeof proposal.projectName === 'string' && proposal.projectName.length <= 100
-      && typeof proposal.explanation === 'string' && proposal.explanation.length <= 1500
-      && typeof proposal.notes === 'string' && proposal.notes.length <= 1500;
-  }
-
-  aiInput.addEventListener('input', () => {
-    aiProposal = null;
-    aiPreview.hidden = true;
-    aiStatus.textContent = '';
-  });
-
-  aiGenerate.addEventListener('click', async () => {
-    if (aiBusy) return;
-    const description = aiInput.value.trim();
-    if (description.length < 15 || description.length > 3000) {
-      aiStatus.textContent = 'Bitte beschreibe dein Projekt mit mindestens 15 Zeichen.';
-      aiInput.focus();
-      return;
-    }
-    aiBusy = true;
-    aiGenerate.disabled = true;
-    aiInput.disabled = true;
-    aiGenerate.textContent = 'Vorschlag wird erstellt …';
-    aiStatus.textContent = 'Die KI stellt deinen Website-Plan zusammen.';
-    aiPreview.hidden = true;
-    aiProposal = null;
-    const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), 30000);
+  // Mustafa hands over a reviewed proposal within this browser tab.
+  const proposalId = new URLSearchParams(location.search).get('ai');
+  if (proposalId && /^[a-zA-Z0-9-]{1,80}$/.test(proposalId)) {
     try {
-      const response = await fetch(aiEndpoint, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({description}),
-        signal: controller.signal
-      });
-      let data;
-      try { data = await response.json(); }
-      catch { throw new Error('Der KI-Dienst ist noch nicht bereit. Du kannst weiterhin manuell konfigurieren.'); }
-      if (!response.ok) throw new Error(typeof data.error === 'string' ? data.error : 'Die KI ist gerade nicht verfügbar.');
-      if (!validProposal(data.configuration)) throw new Error('Der Vorschlag war unvollständig. Bitte versuche es nochmals.');
-      aiProposal = data.configuration;
-      aiProposal.features = [...new Set([...includedFeatures, ...aiProposal.features])];
-      const estimatedPrice = priceForPages(aiProposal.pageCount)
-        + aiProposal.features.filter(id => !includedFeatures.has(id)).length * 80;
-      document.getElementById('ai-pages').textContent = aiProposal.pageCount + ' Seiten · ' + activePlan.label;
-      document.getElementById('ai-price').textContent = formatPrice(estimatedPrice);
-      document.getElementById('ai-explanation').textContent = aiProposal.explanation;
-      document.getElementById('ai-notes').textContent = aiProposal.notes;
-      const list = document.getElementById('ai-features');
-      list.replaceChildren();
-      aiProposal.features.forEach(id => {
-        const item = document.createElement('li');
-        const feature = features.find(([known]) => known === id);
-        item.textContent = feature[1] + (includedFeatures.has(id) ? ' · inbegriffen' : ' · + CHF 80');
-        list.append(item);
-      });
-      aiPreview.hidden = false;
-      aiStatus.textContent = 'Dein Vorschlag ist bereit. Prüfe ihn und übernimm ihn in den Konfigurator.';
-    } catch (error) {
-      aiStatus.textContent = error.name === 'AbortError'
-        ? 'Die Antwort dauert zu lange. Bitte versuche es erneut oder konfiguriere manuell.'
-        : error.name === 'TypeError'
-          ? 'Der KI-Dienst ist gerade nicht erreichbar. Du kannst weiterhin manuell konfigurieren.'
-          : error.message;
-    } finally {
-      window.clearTimeout(timer);
-      aiBusy = false;
-      aiGenerate.disabled = false;
-      aiInput.disabled = false;
-      aiGenerate.textContent = 'Vorschlag erstellen ↗';
-    }
-  });
-
-  aiApply.addEventListener('click', () => {
-    if (!aiProposal || aiBusy) return;
-    field('pageCount').value = String(aiProposal.pageCount);
-    field('business').value = aiProposal.business;
-    if (aiProposal.projectName) field('projectName').value = aiProposal.projectName;
-    features.forEach(([id]) => { document.getElementById('feature-' + id).checked = aiProposal.features.includes(id); });
-    update();
-    showStep(1);
-    aiStatus.textContent = 'Vorschlag übernommen. Du kannst alle Einstellungen und Kontaktdaten selbst anpassen.';
-    document.querySelector('.workspace').scrollIntoView({behavior: 'smooth', block: 'start'});
-  });
+      const key = 'byo-mustafa:' + proposalId;
+      const raw = sessionStorage.getItem(key);
+      const saved = raw ? JSON.parse(raw) : null;
+      const proposal = saved?.configuration;
+      const businesses = [...field('business').options].map(option => option.value);
+      const valid = saved && Date.now() - saved.createdAt < 1800000 && Date.now() >= saved.createdAt
+        && proposal && Number.isInteger(proposal.pageCount) && proposal.pageCount >= 3 && proposal.pageCount <= 30
+        && Array.isArray(proposal.features) && proposal.features.every(id => features.some(([known]) => id === known))
+        && businesses.includes(proposal.business) && typeof proposal.projectName === 'string' && proposal.projectName.length <= 100
+        && typeof proposal.notes === 'string' && proposal.notes.length <= 1500;
+      if (valid) {
+        field('pageCount').value = String(proposal.pageCount);
+        field('business').value = proposal.business;
+        field('projectName').value = proposal.projectName;
+        if (proposal.notes) field('message').value = proposal.notes;
+        features.forEach(([id]) => {
+          document.getElementById('feature-' + id).checked = includedFeatures.has(id) || proposal.features.includes(id);
+        });
+        sessionStorage.removeItem(key);
+      }
+      const clean = new URL(location.href);
+      clean.searchParams.delete('ai');
+      history.replaceState(null, '', clean.href);
+    } catch { /* The manual configurator remains available. */ }
+  }
 
   document.getElementById('year').textContent = new Date().getFullYear();
   update();
