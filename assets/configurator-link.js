@@ -1,12 +1,25 @@
 (() => {
   function addLink(nav) {
-    if (!nav || nav.querySelector('a[href$="konfigurator.html"]')) return;
-    const template = nav.querySelector('a');
-    const link = document.createElement('a');
-    link.href = './konfigurator.html';
-    link.textContent = 'Konfigurator';
-    if (template) link.className = template.className;
-    nav.append(link);
+    if (!nav) return;
+    let link = nav.querySelector('a[href$="konfigurator.html"]');
+    if (!link) {
+      const template = nav.querySelector('a');
+      link = document.createElement('a');
+      link.href = './konfigurator.html';
+      link.textContent = 'Konfigurator';
+      if (template) link.className = template.className;
+      nav.append(link);
+    }
+
+    const isConfigurator = /\/(konfigurator|projekt|anfrage-erhalten)\.html$/.test(location.pathname);
+    if (isConfigurator) {
+      nav.querySelectorAll('a').forEach(item => {
+        item.removeAttribute('aria-current');
+        item.classList.remove('bg-secondary', 'text-foreground');
+      });
+      link.setAttribute('aria-current', 'page');
+      link.classList.add('bg-secondary', 'text-foreground');
+    }
   }
 
   function attach() {
