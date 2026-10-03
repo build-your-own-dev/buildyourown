@@ -22,7 +22,7 @@
   const selected = () => features.filter(([id]) => document.getElementById(`feature-${id}`).checked);
   const has = id => document.getElementById(`feature-${id}`).checked;
   const pages = () => value('pageCount');
-  const priceForPages = count => 600 + (count > 5 ? (count - 5) * 70 : count < 5 ? -(5 - count) * 20 : 0);
+  const priceForPages = count => 600 + (count > 5 ? (count - 5) * 70 : count < 5 ? -(5 - count) * 50 : 0);
   const formatPrice = price => `CHF ${price.toLocaleString('de-CH')}`;
   let step = 0;
 
