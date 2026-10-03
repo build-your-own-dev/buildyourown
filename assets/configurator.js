@@ -22,6 +22,8 @@
   const selected = () => features.filter(([id]) => document.getElementById(`feature-${id}`).checked);
   const has = id => document.getElementById(`feature-${id}`).checked;
   const pages = () => value('pageCount');
+  const priceForPages = count => 600 + (count > 5 ? (count - 5) * 70 : count < 5 ? -(5 - count) * 20 : 0);
+  const formatPrice = price => `CHF ${price.toLocaleString('de-CH')}`;
   let step = 0;
 
   features.forEach(([id, title, description]) => {
@@ -58,8 +60,11 @@
     const count = Number(pages());
     const validCount = Number.isInteger(count) && count >= 3 && count <= 30;
     field('pageCount').setCustomValidity(validCount ? '' : 'Bitte wähle zwischen 3 und 30 Seiten.');
+    const price = priceForPages(count);
     document.getElementById('summary-pages').textContent = `${count} Seiten`;
+    document.getElementById('summary-price').textContent = formatPrice(price);
     document.getElementById('page-count').replaceChildren(document.createTextNode(`${count} `), Object.assign(document.createElement('small'), {textContent: 'Seiten'}));
+    document.getElementById('page-price').textContent = formatPrice(price);
     field('pageCount').setAttribute('aria-valuetext', `${count} Seiten`);
     field('pageCount').style.setProperty('--range-progress', `${((count - 3) / 27) * 100}%`);
     document.getElementById('summary-business').textContent = value('business');
@@ -126,7 +131,8 @@
       'Hallo Build Your Own', '', 'Ich interessiere mich für eine Website mit folgender Konfiguration:', '',
       `Projekt / Firma: ${value('projectName') || 'Noch offen'}`,
       `Bereich: ${value('business')}`,
-      `Umfang: ${pages()} ${pages() === '1' ? 'Seite' : 'Seiten'} (ohne rechtliche Seiten)`, '',
+      `Umfang: ${pages()} ${pages() === '1' ? 'Seite' : 'Seiten'} (ohne rechtliche Seiten)`,
+      `Preis nach Seitenumfang: ${formatPrice(priceForPages(Number(pages())))}`, '',
       'Gewünschte Funktionen:',
       ...selected().map(([, title]) => `- ${title}`)
     ];
@@ -174,6 +180,7 @@
       'Projekt / Firma': value('projectName') || 'Noch offen',
       Bereich: value('business'),
       Seitenanzahl: `${pages()} Seiten (ohne rechtliche Seiten)`,
+      Preis: formatPrice(priceForPages(Number(pages()))),
       Funktionen: selected().map(([, title]) => title).join(', ') || 'Keine zusätzlichen Funktionen',
       'Gewünschter Start': value('timeline'),
       'Bestehende Website': value('existingSite') || 'Keine angegeben',
