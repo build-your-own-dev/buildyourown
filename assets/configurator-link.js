@@ -20,6 +20,16 @@
       nav.append(link);
     }
 
+    let tavello = nav.querySelector('a[href^="https://tavello.build-your-own.ch"]');
+    if (!tavello) {
+      tavello = document.createElement('a');
+      tavello.href = 'https://tavello.build-your-own.ch/';
+      tavello.textContent = 'Tavello';
+      tavello.setAttribute('aria-label', 'Tavello');
+      tavello.className = link.className;
+      link.after(tavello);
+    }
+
     if (/\/(konfigurator|projekt|anfrage-erhalten)\.html$/.test(location.pathname)) {
       setActive(nav, link);
     } else if (/\/wok-momo\.html$/.test(location.pathname)) {
