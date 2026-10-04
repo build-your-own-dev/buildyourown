@@ -5,7 +5,9 @@
     ['timed', 'Zeitlich begrenzte Inhalte', 'Aktionen und Hinweise automatisch ein- und ausblenden.'],
     ['contact', 'Kontaktformular', 'Anfragen direkt über deine Website erhalten.'],
     ['gallery', 'Bildergalerie', 'Arbeiten, Produkte oder Räume mit Bildern präsentieren.'],
-    ['booking', 'Termine & Reservationen', 'Terminanfragen oder ein passendes Buchungssystem.'],
+    ['booking', 'BYO Calendar', 'Terminreservationen direkt über deine Website verwalten.'],
+    ['ai', 'KI Assistent', 'Ein intelligenter Assistent unterstützt deine Kundinnen und Kunden.'],
+    ['social', 'Social Media Konnektoren', 'Instagram, Facebook und weitere Kanäle mit der Website verbinden.'],
     ['languages', 'Mehrere Sprachen', 'Deine Inhalte in zusätzlichen Sprachen anbieten.'],
     ['map', 'Standort & Anfahrt', 'Adresse, Kartenansicht und Wegbeschreibung.'],
     ['faq', 'Häufige Fragen', 'Wichtige Antworten an einem Ort bereitstellen.']
@@ -21,7 +23,7 @@
   const plans = {
     small: {label: 'Small', pages: 3, included: ['hours', 'contact', 'gallery'], selected: ['hours', 'contact', 'gallery']},
     basic: {label: 'Basic', pages: 5, included: ['hours', 'map', 'contact', 'gallery'], selected: ['hours', 'map', 'contact', 'gallery']},
-    business: {label: 'Business', pages: 8, included: ['hours', 'map', 'contact', 'gallery'], selected: ['hours', 'map', 'contact', 'gallery', 'booking', 'languages', 'faq', 'timed']}
+    business: {label: 'Business', pages: 8, included: ['hours', 'map', 'contact', 'gallery'], selected: ['hours', 'map', 'contact', 'gallery', 'booking', 'ai', 'social', 'languages', 'faq', 'timed']}
   };
   const requestedPlan = new URLSearchParams(window.location.search).get('plan');
   const activePlanKey = Object.hasOwn(plans, requestedPlan) ? requestedPlan : 'basic';
