@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const features = [["hours","Öffnungszeiten"],["timed","Zeitlich begrenzte Inhalte"],["contact","Kontaktformular"],["gallery","Bildergalerie"],["booking","Termine & Reservationen"],["languages","Mehrere Sprachen"],["map","Standort & Anfahrt"],["faq","Häufige Fragen"]];
+  const features = [["hours","Öffnungszeiten"],["timed","Zeitlich begrenzte Inhalte"],["contact","Kontaktformular"],["gallery","Bildergalerie"],["booking","BYO Calendar"],["ai","KI Assistent"],["social","Social Media Konnektoren"],["languages","Mehrere Sprachen"],["map","Standort & Anfahrt"],["faq","Häufige Fragen"]];
   const activePlan = {label: 'Basic'};
   const includedFeatures = new Set(['hours', 'map', 'contact', 'gallery']);
   const priceForPages = count => 600 + (count > 5 ? (count - 5) * 70 : -(5 - count) * 50);
@@ -26,7 +26,9 @@
     add('timed', /aktion|event|veranstaltung|saisonal|zeitlich|angebot/);
     add('contact', /kontakt|anfrage|formular|erreichbar|nachricht/);
     add('gallery', /bild|foto|galerie|portfolio|referenz|arbeiten zeigen/);
-    add('booking', /termin|reservation|reservierung|buchung|buchen|tisch/);
+    add('booking', /termin|reservation|reservierung|buchung|buchen|kalender|calendar|tisch/);
+    add('ai', /\bki\b|künstliche intelligenz|chatbot|assistent/);
+    add('social', /social media|instagram|facebook|tiktok|linkedin|soziale medien/);
     add('languages', /mehrsprach|mehrere sprachen|englisch|italienisch|französisch|romanisch/);
     add('map', /standort|anfahrt|adresse|karte|maps|weg/);
     add('faq', /faq|häufige fragen|fragen und antworten/);
