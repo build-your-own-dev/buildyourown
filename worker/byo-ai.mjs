@@ -90,7 +90,7 @@ Leite aus der Kundenbeschreibung eine realistische Website-Konfiguration ab.
 Wähle 3 bis 30 Seiten, ohne Impressum und Datenschutz mitzuzählen.
 Nur diese Funktionen sind verfügbar:
 hours=Öffnungszeiten; timed=zeitlich begrenzte Inhalte; contact=Kontaktformular;
-gallery=Bildergalerie; booking=BYO Calendar für Termine und Reservationen;
+gallery=Bildergalerie; booking=Reservation Calendar für Termine und Reservationen;
 ai=KI Assistent; social=Social Media Konnektoren; languages=mehrere Sprachen;
 map=Standort und Anfahrt; faq=häufige Fragen.
 Wähle nur passende Funktionen. Respektiere ausdrücklich ausgeschlossene Funktionen.
