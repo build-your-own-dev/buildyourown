@@ -2,7 +2,7 @@
 // Optional text variables: GEMINI_MODEL, AI_NAME, AI_PERSONALITY.
 // No API key belongs in this file or in the website.
 const ORIGINS = new Set(['https://build-your-own.ch', 'https://www.build-your-own.ch']);
-const FEATURES = ['hours', 'timed', 'contact', 'gallery', 'booking', 'languages', 'map', 'faq'];
+const FEATURES = ['hours', 'timed', 'contact', 'gallery', 'booking', 'ai', 'social', 'languages', 'map', 'faq'];
 const BUSINESSES = ['Unternehmen & Dienstleistungen', 'Gastronomie & Hotellerie', 'Handwerk & Bau', 'Portfolio & Kreatives', 'Verein & Organisation', 'Gesundheit & Wohlbefinden', 'Onlinehandel', 'Etwas anderes'];
 const schema = {
   type: 'OBJECT',
@@ -19,7 +19,7 @@ const schema = {
 
 export function validateConfiguration(value) {
   return value && Number.isInteger(value.pageCount) && value.pageCount >= 3 && value.pageCount <= 30
-    && Array.isArray(value.features) && value.features.length <= 8 && value.features.every(id => FEATURES.includes(id))
+    && Array.isArray(value.features) && value.features.length <= FEATURES.length && value.features.every(id => FEATURES.includes(id))
     && BUSINESSES.includes(value.business)
     && typeof value.projectName === 'string' && value.projectName.length <= 100
     && typeof value.explanation === 'string' && value.explanation.length <= 1500
@@ -90,7 +90,8 @@ Leite aus der Kundenbeschreibung eine realistische Website-Konfiguration ab.
 Wähle 3 bis 30 Seiten, ohne Impressum und Datenschutz mitzuzählen.
 Nur diese Funktionen sind verfügbar:
 hours=Öffnungszeiten; timed=zeitlich begrenzte Inhalte; contact=Kontaktformular;
-gallery=Bildergalerie; booking=Termine und Reservationen; languages=mehrere Sprachen;
+gallery=Bildergalerie; booking=BYO Calendar für Termine und Reservationen;
+ai=KI Assistent; social=Social Media Konnektoren; languages=mehrere Sprachen;
 map=Standort und Anfahrt; faq=häufige Fragen.
 Wähle nur passende Funktionen. Respektiere ausdrücklich ausgeschlossene Funktionen.
 Wenn Seitenzahlen fehlen, schlage einen passenden kompakten Umfang vor.
