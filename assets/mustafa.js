@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const features = [["hours","Öffnungszeiten"],["timed","Zeitlich begrenzte Inhalte"],["contact","Kontaktformular"],["gallery","Bildergalerie"],["booking","BYO Calendar"],["ai","KI Assistent"],["social","Social Media Konnektoren"],["languages","Mehrere Sprachen"],["map","Standort & Anfahrt"],["faq","Häufige Fragen"]];
+  const features = [["hours","Öffnungszeiten"],["timed","Zeitlich begrenzte Inhalte"],["contact","Kontaktformular"],["gallery","Bildergalerie"],["booking","Reservation Calendar"],["ai","KI Assistent"],["social","Social Media Konnektoren"],["languages","Mehrere Sprachen"],["map","Standort & Anfahrt"],["faq","Häufige Fragen"]];
   const activePlan = {label: 'Basic'};
   const includedFeatures = new Set(['hours', 'map', 'contact', 'gallery']);
   const priceForPages = count => 600 + (count > 5 ? (count - 5) * 70 : -(5 - count) * 50);
