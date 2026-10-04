@@ -10,6 +10,7 @@
 
   function addLink(nav) {
     if (!nav) return;
+    nav.querySelectorAll('a[href*="instagram.com"]').forEach(link => link.remove());
     let link = nav.querySelector('a[href$="konfigurator.html"]');
     if (!link) {
       const template = nav.querySelector('a');
