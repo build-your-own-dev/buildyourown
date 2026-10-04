@@ -5,7 +5,7 @@
     ['timed', 'Zeitlich begrenzte Inhalte', 'Aktionen und Hinweise automatisch ein- und ausblenden.'],
     ['contact', 'Kontaktformular', 'Anfragen direkt über deine Website erhalten.'],
     ['gallery', 'Bildergalerie', 'Arbeiten, Produkte oder Räume mit Bildern präsentieren.'],
-    ['booking', 'BYO Calendar', 'Terminreservationen direkt über deine Website verwalten.'],
+    ['booking', 'Reservation Calendar', 'Terminreservationen direkt über deine Website verwalten.'],
     ['ai', 'KI Assistent', 'Ein intelligenter Assistent unterstützt deine Kundinnen und Kunden.'],
     ['social', 'Social Media Konnektoren', 'Instagram, Facebook und weitere Kanäle mit der Website verbinden.'],
     ['languages', 'Mehrere Sprachen', 'Deine Inhalte in zusätzlichen Sprachen anbieten.'],
